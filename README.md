@@ -9,7 +9,7 @@ all the raw data :
 9 subjects x 21 min (per subject) on 6 activities (Sitting, Standing, Standing up, Walking, Walking upstairs, Walking downstairs)
 
 
-algorithm training : cnn_wism_no_features.py
+algorithm training : cnn_eyewear.py
 
 gives the :
 model_cnn-15000;
