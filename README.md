@@ -9,32 +9,24 @@ all the raw data :
 9 subjects x 21 min (per subject) on 6 activities (Sitting, Standing, Standing up, Walking, Walking upstairs, Walking downstairs)
 
 
-algorithm training :
-cnn_wism_no_features.py
+algorithm training : cnn_wism_no_features.py
 
 gives the :
 model_cnn-15000;
 checkpoint;
 model_cnn-15000.meta;
 
-The test python file is : 
-restore_cnn_model.py
+The test python file is : restore_cnn_model.py
 
 
-The saved files give then the : 
-
-frozen_model.pb
+The saved files give then the : frozen_model.pb
 
 
 
-Finally a test with the frozen model, the normalization... was performed : 
-
-restore_frozen.py
+Finally a test with the frozen model, the normalization... was performed : restore_frozen.py
 
 
 To execute a file, you just need to have everything in the same path. Nothing more ! Basic use.
-
-
 
 
 Note : In the CNN, gyroscope data was first integrated. But it was dramatically bad. 
