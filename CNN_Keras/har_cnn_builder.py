@@ -16,7 +16,7 @@ num_training_iterations = 15000
 batch_size = 128
 
 l2_reg = 5e-4
-learning_rate = 5e-4
+learning_rate = 1e-4
 dropout_rate = 0.03
 eval_iter = 1000
 
