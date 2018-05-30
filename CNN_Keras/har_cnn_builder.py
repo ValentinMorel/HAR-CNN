@@ -12,16 +12,16 @@ from keras import regularizers
 segment_size = 128
 num_input_channels = 3
 
-num_training_iterations = 100
+num_training_iterations = 15000
 batch_size = 128
 
 l2_reg = 5e-4
 learning_rate = 5e-4
-dropout_rate = 0.15
+dropout_rate = 0.03
 eval_iter = 1000
 
 n_filters = 196
-filters_size = 12
+filters_size = 16
 n_hidden = 1024
 n_classes = 6
 
@@ -29,7 +29,7 @@ n_classes = 6
 def weight_variable(shape, stddev):
     initial = tf.truncated_normal(shape, stddev=stddev)
     return tf.Variable(initial)
-  
+
 def bias_variable(shape):
     initial = tf.constant(0.01, shape=shape)
     return tf.Variable(initial)
@@ -55,22 +55,14 @@ print('Loading train data...')
 fx = open("data_processing/wisdm_data/data_x_" + str(segment_size) + ".csv")
 fy = open("data_processing/wisdm_data/data_y_" + str(segment_size) + ".csv")
 fz = open("data_processing/wisdm_data/data_z_" + str(segment_size) + ".csv")
-#gx = open("data_processing/wisdm_data/gyro_x_" + str(segment_size) + ".csv")
-#gy = open("data_processing/wisdm_data/gyro_y_" + str(segment_size) + ".csv")
-#gz = open("data_processing/wisdm_data/gyro_z_" + str(segment_size) + ".csv")
 
 data_x = np.loadtxt(fname = fx, delimiter = ',')
 data_y = np.loadtxt(fname = fy, delimiter = ',')
 data_z = np.loadtxt(fname = fz, delimiter = ',')
-#gyro_x = np.loadtxt(fname = gx, delimiter = ',')
-#gyro_y = np.loadtxt(fname = gy, delimiter = ',')
-#gyro_z = np.loadtxt(fname = gz, delimiter = ',')
-
 
 print('Loading done !')
 fx.close(); fy.close(); fz.close();
 data_train = np.hstack((data_x, data_y, data_z))
-                        #gyro_x, gyro_y, gyro_z))
 
 
 print('Loading test data...')
@@ -79,22 +71,13 @@ print('Loading test data...')
 fx = open("data_processing/wisdm_data/data_x_test_" + str(segment_size) + ".csv")
 fy = open("data_processing/wisdm_data/data_y_test_" + str(segment_size) + ".csv")
 fz = open("data_processing/wisdm_data/data_z_test_" + str(segment_size) + ".csv")
-#gx = open("data_processing/wisdm_data/gyro_x_test_" + str(segment_size) + ".csv")
-#gy = open("data_processing/wisdm_data/gyro_y_test_" + str(segment_size) + ".csv")
-#gz = open("data_processing/wisdm_data/gyro_z_test_" + str(segment_size) + ".csv")
 
 data_x = np.loadtxt(fname = fx, delimiter = ',')
 data_y = np.loadtxt(fname = fy, delimiter = ',')
-data_z = np.loadtxt(fname = fz, delimiter = ',')
-#gyro_x = np.loadtxt(fname = gx, delimiter = ',')
-#gyro_y = np.loadtxt(fname = gy, delimiter = ',')
-#gyro_z = np.loadtxt(fname = gz, delimiter = ',')
-
 
 print('Loading done !')
 fx.close(); fy.close(); fz.close();
 data_test = np.hstack((data_x, data_y, data_z,))
-                       #gyro_x, gyro_y, gyro_z))
 
 
 print('Loading train labels....')
@@ -135,7 +118,7 @@ trainSplitRatio = 1
 
 data_trained = data_train.reshape(data_train.shape[0], 128,3,1)
 
-#reshape of the INPUT to fit in the model 
+#reshape of the INPUT to fit in the model
 
 data_tested = data_test.reshape(data_test.shape[0], 128,3,1)
 
@@ -171,7 +154,7 @@ print(model.summary())
 
 
 model.fit(data_trained, labels_train,validation_split=1-trainSplitRatio, epochs=5,batch_size=128,verbose=1)
-#evaluate with the data test - labels test 
+#evaluate with the data test - labels test
 score = model.evaluate(data_tested,labels_test,verbose=1)
 print('Baseline Error: %.2f%%' %(100-score[1]*100))
 model.save('model_cnn.h5')
