@@ -53,21 +53,13 @@ print('Loading WISDM dataset...')
 fx = open("data_processing/wisdm_data/data_x_" + str(segment_size) + ".csv")
 fy = open("data_processing/wisdm_data/data_y_" + str(segment_size) + ".csv")
 fz = open("data_processing/wisdm_data/data_z_" + str(segment_size) + ".csv")
-#gx = open("data_processing/wisdm_data/gyro_x_" + str(segment_size) + ".csv")
-#gy = open("data_processing/wisdm_data/gyro_y_" + str(segment_size) + ".csv")
-#gz = open("data_processing/wisdm_data/gyro_z_" + str(segment_size) + ".csv")
-ff = open("data_processing/wisdm_data/basic_features_" + str(segment_size) + ".csv")
 
 data_x = np.loadtxt(fname = fx, delimiter = ',')
 data_y = np.loadtxt(fname = fy, delimiter = ',')
 data_z = np.loadtxt(fname = fz, delimiter = ',')
-#gyro_x = np.loadtxt(fname = gx, delimiter = ',')
-#gyro_y = np.loadtxt(fname = gy, delimiter = ',')
-#gyro_z = np.loadtxt(fname = gz, delimiter = ',')
 
-features = np.loadtxt(fname = ff, delimiter = ',')
 
-fx.close(); fy.close(); fz.close(); ff.close()
+fx.close(); fy.close(); fz.close();
 data_train = np.hstack((data_x, data_y, data_z))
                         #gyro_x, gyro_y, gyro_z))
 
@@ -76,23 +68,14 @@ data_train = np.hstack((data_x, data_y, data_z))
 fx = open("data_processing/wisdm_data/data_x_test_" + str(segment_size) + ".csv")
 fy = open("data_processing/wisdm_data/data_y_test_" + str(segment_size) + ".csv")
 fz = open("data_processing/wisdm_data/data_z_test_" + str(segment_size) + ".csv")
-#gx = open("data_processing/wisdm_data/gyro_x_test_" + str(segment_size) + ".csv")
-#gy = open("data_processing/wisdm_data/gyro_y_test_" + str(segment_size) + ".csv")
-#gz = open("data_processing/wisdm_data/gyro_z_test_" + str(segment_size) + ".csv")
-ff = open("data_processing/wisdm_data/basic_features_test_" + str(segment_size) + ".csv")
+
 
 data_x = np.loadtxt(fname = fx, delimiter = ',')
 data_y = np.loadtxt(fname = fy, delimiter = ',')
 data_z = np.loadtxt(fname = fz, delimiter = ',')
-#gyro_x = np.loadtxt(fname = gx, delimiter = ',')
-#gyro_y = np.loadtxt(fname = gy, delimiter = ',')
-#gyro_z = np.loadtxt(fname = gz, delimiter = ',')
 
-features_test = np.loadtxt(fname = ff, delimiter = ',')
-
-fx.close(); fy.close(); fz.close(); ff.close()
+fx.close(); fy.close(); fz.close();
 data_test = np.hstack((data_x, data_y, data_z,))
-                       #gyro_x, gyro_y, gyro_z))
 
 # Reading training labels
 
@@ -106,11 +89,6 @@ fa = open("data_processing/wisdm_data/answers_vectors_test_" + str(segment_size)
 labels_test = np.loadtxt(fname = fa, delimiter = ',')
 fa.close()
 
-features = features - np.mean(features, axis = 0)
-features = features / np.std(features, axis = 0)
-
-features_test = features_test - np.mean(features_test, axis = 0)
-features_test = features_test / np.std(features_test, axis = 0)
 
 for i in range(num_input_channels):
     x = data_train[:, i * segment_size : (i + 1) * segment_size]
@@ -215,7 +193,6 @@ for i in range(num_training_iterations):
     
     xt = np.reshape(data_train[idx_train], [batch_size, segment_size * num_input_channels])
     yt = np.reshape(labels_train[idx_train], [batch_size, n_classes])
-    ft = np.reshape(features[idx_train], [batch_size, num_features])
         
     sess.run(train_step, feed_dict={x: xt, y_: yt, keep_prob: dropout_rate})
     
