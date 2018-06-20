@@ -446,7 +446,7 @@ if __name__ == '__main__':
             batch_x = np.reshape(batch_x,(-1,384))
             
             y_out = sess.run(y_conv, feed_dict={
-                x: batch_x, keep_prob:0.03})
+                x: batch_x, keep_prob:1})
 
             y_arg = np.argmax(y_out,1)
             y_out = y_out.T
